@@ -3,28 +3,30 @@
 using namespace std;
 
 int main() {
-	long long num_elements;
-	cin >> num_elements;
-	long long prefix_array[num_elements];
-	long long numbers[num_elements];
-	for(long long i = 0; i < num_elements; i++) {
-		cin >> prefix_array[i];
-		numbers[i] = prefix_array[i];
-		prefix_array[i] += i == 0 ? 0 : prefix_array[i - 1];
+	long long array_size;
+	cin >> array_size;
+	long long sequence[array_size], prefix_array[array_size];
+	for(long long i = 0; i < array_size; i++) {
+		cin >> sequence[i];
+		if(i == 0) prefix_array[i] = sequence[i];
+		else prefix_array[i] = prefix_array[i - 1] + sequence[i];
 	}
-	if(prefix_array[num_elements - 1] % 2) {
+	if(prefix_array[array_size - 1] % 2) {
 		cout << "NO" << endl;
 		return 0;
 	}
-	long long wanted = prefix_array[num_elements - 1] / 2;
-	for(long long i = 0; i < num_elements; i++) {
-		if(prefix_array[i] > wanted && binary_search(prefix_array, prefix_array + i + 1, wanted - numbers[i])) {
+	long long desired = prefix_array[array_size - 1] / 2;
+	for(long long i = 0; i < array_size; i++) {
+		long long current = sequence[i];
+		if(prefix_array[i] == desired) {
 			cout << "YES" << endl;
 			return 0;
-		} else if(prefix_array[i] < wanted && binary_search(prefix_array + i + 1, prefix_array + num_elements, wanted + numbers[i])) {
+		}
+		if(binary_search(prefix_array + i, prefix_array + array_size, desired + current)) {
 			cout << "YES" << endl;
 			return 0;
-		} else if(prefix_array[i] == wanted) {
+		}
+		if(binary_search(prefix_array, prefix_array + i, desired - current)) {
 			cout << "YES" << endl;
 			return 0;
 		}
