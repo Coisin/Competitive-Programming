@@ -1,3 +1,10 @@
 Current
-*/Prog.in
-*/*/Prog.in
+
+*/*.in
+*/*/*.in
+
+*/*.out
+*/*/*.out
+
+*/Prog
+*/*/Prog
